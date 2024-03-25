@@ -4,7 +4,7 @@
 # compile CXX with /sbin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/Umar/projects/celfluidsim/CelFluidSim/dependencies
 
 CXX_FLAGS = 
 

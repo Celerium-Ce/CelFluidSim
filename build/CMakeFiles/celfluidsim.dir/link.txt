@@ -1,1 +1,1 @@
-/sbin/c++ CMakeFiles/celfluidsim.dir/src/main.cpp.o -o celfluidsim 
+/sbin/c++ CMakeFiles/celfluidsim.dir/src/main.cpp.o -o celfluidsim  -lglfw 

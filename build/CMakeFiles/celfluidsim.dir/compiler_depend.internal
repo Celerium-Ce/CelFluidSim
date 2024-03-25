@@ -3,7 +3,11 @@
 
 CMakeFiles/celfluidsim.dir/src/main.cpp.o
  /home/Umar/projects/celfluidsim/CelFluidSim/src/main.cpp
+ /home/Umar/projects/celfluidsim/CelFluidSim/dependencies/GLFW/glfw3.h
  /home/Umar/projects/celfluidsim/CelFluidSim/src/config.h
+ /usr/include/GL/gl.h
+ /usr/include/GL/glext.h
+ /usr/include/KHR/khrplatform.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
@@ -26,6 +30,7 @@ CMakeFiles/celfluidsim.dir/src/main.cpp.o
  /usr/include/bits/select.h
  /usr/include/bits/setjmp.h
  /usr/include/bits/stdint-intn.h
+ /usr/include/bits/stdint-uintn.h
  /usr/include/bits/stdio_lim.h
  /usr/include/bits/stdlib-float.h
  /usr/include/bits/struct_mutex.h
@@ -178,6 +183,7 @@ CMakeFiles/celfluidsim.dir/src/main.cpp.o
  /usr/include/pthread.h
  /usr/include/sched.h
  /usr/include/stdc-predef.h
+ /usr/include/stdint.h
  /usr/include/stdio.h
  /usr/include/stdlib.h
  /usr/include/sys/cdefs.h
@@ -189,4 +195,5 @@ CMakeFiles/celfluidsim.dir/src/main.cpp.o
  /usr/include/wctype.h
  /usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include/stdarg.h
  /usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include/stddef.h
+ /usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include/stdint.h
 
