@@ -1,0 +1,3 @@
+/home/Umar/projects/celfluidsim/CelFluidSim/build/CMakeFiles/celfluidsim.dir
+/home/Umar/projects/celfluidsim/CelFluidSim/build/CMakeFiles/edit_cache.dir
+/home/Umar/projects/celfluidsim/CelFluidSim/build/CMakeFiles/rebuild_cache.dir
