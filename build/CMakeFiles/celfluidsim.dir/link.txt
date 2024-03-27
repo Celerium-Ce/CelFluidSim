@@ -1,1 +1,1 @@
-/sbin/c++ CMakeFiles/celfluidsim.dir/src/main.cpp.o -o celfluidsim  -lglfw 
+/sbin/c++ CMakeFiles/celfluidsim.dir/src/main.cpp.o CMakeFiles/celfluidsim.dir/src/glad.c.o -o celfluidsim  -lglfw /usr/lib/libGLX.so /usr/lib/libOpenGL.so
