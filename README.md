@@ -3,7 +3,7 @@
 ## A simple fluid simulation programmed in C++.
 
 ### Dependencies
-#### glfw
+#### GLFW
 For Arch based systems
 `sudo pacman -S glfw`
 
