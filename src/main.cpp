@@ -1,5 +1,4 @@
 #include "config.h"
-#include <filesystem>
 #define nl '\n'
 using std::cout;
 using std::cin;
@@ -49,6 +48,7 @@ int main(){
 	// Lpading shaders
 	vertexshadersource = readshadersource("../src/vertexshader");	
 	fragmentshadersource = readshadersource("../src/fragmentshader");
+
 	//--------------------- Initial GLFW Setup --------------------- 
 	if (!glfwInit()){
 		cout << "GLFW couldn't start" << nl;	
@@ -78,7 +78,7 @@ int main(){
 
 	glViewport(0,0,800,600);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
-
+	
 
 	//------------------------- Building and Compiling Shaders -------------------------
 	
@@ -104,8 +104,7 @@ int main(){
 	if(!success2){
 		glGetShaderInfoLog(fragmentshader,512,NULL,erlogs);
 		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << erlogs << nl;
-	}
-	
+	}	
 	//Creating Shader Program
 	unsigned int shaderprogram;
 	shaderprogram=glCreateProgram();
@@ -118,18 +117,55 @@ int main(){
 		cout << "SHADER::PROGRAM::ERROR\n" << erlogs;
 		return -1;
 	}
+
 	
+	//============ VAOs???
+	
+	unsigned int VAO;
+	glGenVertexArrays(1,&VAO);
+	glBindVertexArray(VAO);
+
+	//------------------------- Setting up Vertex data and buffer -------------------------
+	
+	float vertices[]={
+		 0.0f, 0.5f, 0.0f,
+		 0.5f,-0.5f, 0.0f,
+		-0.5f,-0.5f, 0.0f,
+
+		 0.5f, 1.0f, 0.0f,
+		 1.0f, 0.0f, 0.0f,
+		 0.0f, 0.0f, 0.0f,
+
+	};
+	unsigned int VBO;
+	glGenBuffers(1,&VBO);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
+
+
+	//------------------------- Defining/Linking Vertex Attributes -------------------------
+	
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float),(void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+	glBindVertexArray(0);
 	//Activating and freeing objects
-	glUseProgram(shaderprogram);
 	glDeleteShader(vertexshader);
 	glDeleteShader(fragmentshader);
-
-
+	
 	//------------------------- Main Window Loop -------------------------
 	while (!glfwWindowShouldClose(window)){
+		//glUseProgram(shaderprogram);
+		//glBindVertexArray(VAO);
 		changerace(window);
 		changerace2(window);
-		glClear(GL_COLOR_BUFFER_BIT);	
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glUseProgram(shaderprogram);
+		glBindVertexArray(VAO);	
+		glDrawArrays(GL_TRIANGLES,0,6);
+	
 		glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
