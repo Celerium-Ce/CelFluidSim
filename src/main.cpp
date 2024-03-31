@@ -33,7 +33,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 	glViewport(0, 0, width, height);
 }
 
-void changerace(GLFWwindow* window){
+/*void changerace(GLFWwindow* window){
 	if (glfwGetKey(window,GLFW_KEY_SPACE) == GLFW_PRESS){
 		glClearColor(0.75f,0.01f,1.0f,0.5f);
 	}
@@ -42,6 +42,20 @@ void changerace2(GLFWwindow* window){
 	if (glfwGetKey(window,GLFW_KEY_TAB) == GLFW_PRESS){
 		glClearColor(0.0f,0.0f,1.0f,0.5f);
 	}
+}*/
+
+void shifttriangle(GLFWwindow* window,unsigned int& VBO){
+	if (glfwGetKey(window,GLFW_KEY_SPACE) == GLFW_PRESS){
+		float trinagle2[]={
+		 0.00f, 0.05f, 0.0f,
+		 0.05f,-0.05f, 0.0f,
+		 0.1f, 0.1f, 0.0f
+		};
+		glGenBuffers(1,&VBO);
+		glBindBuffer(GL_ARRAY_BUFFER,VBO);
+		glBufferData(GL_ARRAY_BUFFER,sizeof(trinagle2),trinagle2,GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float),(void*)0);
+	}
 }
 
 int main(){
@@ -49,7 +63,9 @@ int main(){
 	vertexshadersource = readshadersource("../src/vertexshader");	
 	fragmentshadersource = readshadersource("../src/fragmentshader");
 
-	//--------------------- Initial GLFW Setup --------------------- 
+	//--------------------- Initial GLFW Setup ---------------------
+	
+
 	if (!glfwInit()){
 		cout << "GLFW couldn't start" << nl;	
 		return -1;
@@ -81,7 +97,8 @@ int main(){
 	
 
 	//------------------------- Building and Compiling Shaders -------------------------
-	
+
+
 	//Vertex Shader 
 	unsigned int vertexshader;
 	vertexshader=glCreateShader(GL_VERTEX_SHADER);
@@ -122,54 +139,54 @@ int main(){
 	//------------------------- Generating VAOs -------------------------
 
 
-	unsigned int VAO;
-	glGenVertexArrays(1,&VAO);
-	glBindVertexArray(VAO);
+	unsigned int VAO[2];
+	glGenVertexArrays(2,VAO);
+	glBindVertexArray(VAO[0]);
 
 
 	//------------------------- Setting up Vertex data and buffer -------------------------
 
 
-	float vertices[]={
-		 0.0f, 0.5f, 0.0f,
-		 0.5f,-0.5f, 0.0f,
-		-0.5f,-0.5f, 0.0f,
-
-		 0.5f, 1.0f, 0.0f,
-		 1.0f, 0.0f, 0.0f,
-		 0.0f, 0.0f, 0.0f,
-
+	float triangle1[]={
+		 0.0f, 0.5f, 0.5f,0.0f,
+		 0.5f,-0.5f, 0.5f,0.0f,
+		-0.5f,-0.5f, 0.5f,0.0f
 	};
-
-	unsigned int VBO;
-	glGenBuffers(1,&VBO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
-
 	
+	unsigned int VBO[2];
+	glGenBuffers(2, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO[0]);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(triangle1),triangle1,GL_STATIC_DRAW);
 	//------------------------- Defining/Linking Vertex Attributes -------------------------
 	
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float),(void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4*sizeof(float),(void*)0);
+	
+	glBindVertexArray(VAO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO[1]);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(triangle1),triangle1,GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4*sizeof(float),(void*)(1*sizeof(float)));
 	glEnableVertexAttribArray(0);
-	//Activating and freeing objects
+
+	//Freeing shaders
 	glDeleteShader(vertexshader);
 	glDeleteShader(fragmentshader);
+	delete[] vertexshadersource;
+	delete[] fragmentshadersource;
 	
 
 	//------------------------- Main Window Loop -------------------------
 	
 
 	while (!glfwWindowShouldClose(window)){
-		//glUseProgram(shaderprogram);
-		//glBindVertexArray(VAO);
-		changerace(window);
-		changerace2(window);
+		
+		
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(shaderprogram);
-		glBindVertexArray(VAO);	
-		glDrawArrays(GL_TRIANGLES,0,6);
+		glBindVertexArray(VAO[0]);	
+		glDrawArrays(GL_TRIANGLES,0,3);
+		glBindVertexArray(VAO[1]);
+		glDrawArrays(GL_TRIANGLES,0,3);
 	
 		glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
 		glfwSwapBuffers(window);
