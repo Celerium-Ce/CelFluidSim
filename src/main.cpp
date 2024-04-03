@@ -119,13 +119,19 @@ int main(){
 
 	//------------------------- Setting up Vertex data and buffer -------------------------
 
+	
+	int maxvertices=32;
+	float vertices[3*(maxvertices+1)];
+	int vertexindice=0;
+	float radius=0.25f;
+	float deltangle=6.28f/(float)maxvertices;
 
-	float vertices[]={
-		 0.0f,0.1f,0.0f,1.0f,0.0f,0.0f, 
-		 -0.0866f,-0.05f,0.0f,1.0f,0.0f,0.0f,
-		 0.0866f,-0.05f,0.0f,1.0f,0.0f,0.0f
-	};
-
+	for (int vert=0; vert<=maxvertices; ++vert){
+		vertices[vertexindice++]=(float)std::cos((float)vert*deltangle)*radius;
+		vertices[vertexindice++]=(float)std::sin((float)vert*deltangle)*radius;
+		vertices[vertexindice++]=0.0f;
+	}
+		
 	unsigned int VBO;
 	glGenBuffers(1,&VBO);
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
@@ -135,10 +141,10 @@ int main(){
 	//------------------------- Defining/Linking Vertex Attributes -------------------------
 	
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float),(void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float),(void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float),(void*)(3*sizeof(float)));
-	glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float),(void*)(3*sizeof(float)));
+	//glEnableVertexAttribArray(1);
 	
 	//Activating and freeing objects
 	glDeleteShader(vertexshader);
@@ -152,18 +158,18 @@ int main(){
 		//glUseProgram(shaderprogram);
 		//glBindVertexArray(VAO);
 		
-		vertices[0]+=delta;
+		/*vertices[0]+=delta;
 		vertices[1]=pow((0.1f-(float)pow(vertices[0],2)),0.5f);
 		vertices[6]+=delta;
 		vertices[7]=pow((0.1f-(float)pow(vertices[6],2)),0.5f);
 		vertices[12]+=delta;
 		vertices[13]=pow((0.1f-(float)pow(vertices[12],2)),0.5f);
-		glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);*/
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(shaderprogram);
 		glBindVertexArray(VAO);	
-		glDrawArrays(GL_TRIANGLES,0,3);
+		glDrawArrays(GL_TRIANGLE_FAN,0,3*(maxvertices+1));
 		//glBindVertexArray(VAO[1]);
 		//glDrawArrays(GL_TRIANGLES,0,3);
 		glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
